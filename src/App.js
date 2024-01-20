@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+// App.js
+
+import React, { useState } from "react";
+import Form from "./Component/Form.js";
+import Table from "./Component/Table.js";
 import './App.css';
 
-function App() {
+
+const App = () => {
+  const [formData, setFormData] = useState([]);
+
+  const handleFormSubmit = (data) => {
+    setFormData([...formData, data]);
+  };
+
+  const handleRowEdit = (index, updatedData) => {
+    const updatedFormData = [...formData];
+    updatedFormData[index] = updatedData;
+    setFormData(updatedFormData);
+  };
+
+  const handleRowDelete = (index) => {
+    const updatedFormData = [...formData];
+    updatedFormData.splice(index, 1);
+    setFormData(updatedFormData);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+        <Form onSubmit={handleFormSubmit} />
+
+      <Table
+        data={formData}
+        onEdit={handleRowEdit}
+        onDelete={handleRowDelete}
+      />
     </div>
   );
-}
+};
 
 export default App;
